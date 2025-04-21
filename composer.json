@@ -1,7 +1,7 @@
 {
     "name": "escarter/activity-log",
     "description": "A Laravel package for logging user activity with admin and user views",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "laravel",
         "activity",
