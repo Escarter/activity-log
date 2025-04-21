@@ -1,10 +1,10 @@
 <?php
 
-namespace VendorName\ActivityLog\Http\Livewire;
+namespace Escarter\ActivityLog\Http\Livewire;
 
 use Illuminate\Support\Collection;
 use Livewire\Component;
-use VendorName\ActivityLog\Models\ActivityLog;
+use Escarter\ActivityLog\Models\ActivityLog;
 
 class ActivityLogFilters extends Component
 {
@@ -13,45 +13,62 @@ class ActivityLogFilters extends Component
     public ?string $dateFrom = null;
     public ?string $dateTo = null;
 
-    // Emit filter changes to parent component
-    public function updatedLogName()
+    protected $listeners = ['resetFilters' => 'resetAllFilters'];
+
+    /**
+     * Emit filter changes to parent component
+     */
+    public function updated($propertyName)
     {
-        $this->emitUp('filterUpdated', $this->getFilters());
+        if (in_array($propertyName, ['logName', 'event', 'dateFrom', 'dateTo'])) {
+            $this->emitUp('filtersUpdated', $this->getFilters());
+        }
     }
 
-    public function updatedEvent()
-    {
-        $this->emitUp('filterUpdated', $this->getFilters());
-    }
-
-    public function updatedDateFrom()
-    {
-        $this->emitUp('filterUpdated', $this->getFilters());
-    }
-
-    public function updatedDateTo()
-    {
-        $this->emitUp('filterUpdated', $this->getFilters());
-    }
-
+    /**
+     * Get all current filters as an array
+     */
     public function getFilters(): array
     {
         return [
             'log_name' => $this->logName ?: null,
             'event' => $this->event ?: null,
-            'date_from' => $this->dateFrom ?: null,
-            'date_to' => $this->dateTo ?: null,
+            'date_from' => $this->dateFrom,
+            'date_to' => $this->dateTo,
         ];
     }
 
-    public function getLogNamesProperty(): Collection
+    /**
+     * Reset all filters to default values
+     */
+    public function resetAllFilters()
     {
-        return ActivityLog::distinct()->pluck('log_name')->filter();
+        $this->reset(['logName', 'event', 'dateFrom', 'dateTo']);
+        $this->emitUp('filtersUpdated', $this->getFilters());
     }
 
+    /**
+     * Get all unique log names for dropdown
+     */
+    public function getLogNamesProperty(): Collection
+    {
+        return ActivityLog::query()
+            ->distinct()
+            ->whereNotNull('log_name')
+            ->orderBy('log_name')
+            ->pluck('log_name');
+    }
+
+    /**
+     * Get all unique events for dropdown
+     */
     public function getEventsProperty(): Collection
     {
-        return ActivityLog::distinct()->pluck('event')->filter();
+        return ActivityLog::query()
+            ->distinct()
+            ->whereNotNull('event')
+            ->orderBy('event')
+            ->pluck('event');
     }
 
     public function render()
