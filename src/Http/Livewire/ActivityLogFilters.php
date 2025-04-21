@@ -1,24 +1,61 @@
 <?php
 
-namespace Escarter\ActivityLog\Commands;
+namespace VendorName\ActivityLog\Http\Livewire;
 
-use Illuminate\Console\Command;
-use Escarter\ActivityLog\ActivityLogFacade as ActivityLog;
+use Illuminate\Support\Collection;
+use Livewire\Component;
+use VendorName\ActivityLog\Models\ActivityLog;
 
-class CleanActivityLogs extends Command
+class ActivityLogFilters extends Component
 {
-    protected $signature = 'activity-log:clean {--days=30 : The number of days to keep activity logs}';
+    public string $logName = '';
+    public string $event = '';
+    public ?string $dateFrom = null;
+    public ?string $dateTo = null;
 
-    protected $description = 'Clean old activity logs from the database';
-
-    public function handle()
+    // Emit filter changes to parent component
+    public function updatedLogName()
     {
-        $days = (int) $this->option('days');
+        $this->emitUp('filterUpdated', $this->getFilters());
+    }
 
-        $deletedRecords = ActivityLog::clean($days);
+    public function updatedEvent()
+    {
+        $this->emitUp('filterUpdated', $this->getFilters());
+    }
 
-        $this->info("Successfully deleted {$deletedRecords} old activity log records.");
+    public function updatedDateFrom()
+    {
+        $this->emitUp('filterUpdated', $this->getFilters());
+    }
 
-        return 0;
+    public function updatedDateTo()
+    {
+        $this->emitUp('filterUpdated', $this->getFilters());
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            'log_name' => $this->logName ?: null,
+            'event' => $this->event ?: null,
+            'date_from' => $this->dateFrom ?: null,
+            'date_to' => $this->dateTo ?: null,
+        ];
+    }
+
+    public function getLogNamesProperty(): Collection
+    {
+        return ActivityLog::distinct()->pluck('log_name')->filter();
+    }
+
+    public function getEventsProperty(): Collection
+    {
+        return ActivityLog::distinct()->pluck('event')->filter();
+    }
+
+    public function render()
+    {
+        return view('activity-log::livewire.activity-log-filters');
     }
 }
