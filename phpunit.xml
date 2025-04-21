@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php"
+         colors="true"
+         verbose="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true">
+    <testsuites>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">
+                ./tests/Feature
+            </directory>
+        </testsuite>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">
+                ./tests/Unit
+            </directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="APP_ENV" value="testing" />
+        <env name="APP_KEY" value="base64:5f1XgHZC5FkaBr2vlDjN6dl9HLscya7g8vEVm9qGqak=" />
+        <env name="CACHE_DRIVER" value="array" />
+        <env name="SESSION_DRIVER" value="array" />
+        <env name="QUEUE_CONNECTION" value="sync" />
+        <env name="DB_CONNECTION" value="sqlite" />
+        <env name="DB_DATABASE" value=":memory:" />
+    </php>
+</phpunit>
