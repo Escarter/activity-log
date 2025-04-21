@@ -43,5 +43,37 @@ return [
     /*
      * The model used to store activity logs.
      */
-    'activity_model' => \VendorName\ActivityLog\Models\ActivityLog::class,
+    'activity_model' => \Escarter\ActivityLog\Models\ActivityLog::class,
+
+    /*
+     * View and UI related configurations
+     */
+    'ui' => [
+        /*
+         * The admin layout to use for the activity log pages
+         */
+        'layout' => env('ACTIVITY_LOG_LAYOUT', 'layouts.app'),
+
+        /*
+         * The theme to use for pagination
+         * Supported: 'bootstrap', 'tailwind'
+         */
+        'pagination_theme' => env('ACTIVITY_LOG_PAGINATION_THEME', 'bootstrap'),
+
+        /*
+         * Default items per page
+         */
+        'per_page' => env('ACTIVITY_LOG_PER_PAGE', 15),
+
+        /*
+         * Default sort field
+         */
+        'sort_field' => env('ACTIVITY_LOG_SORT_FIELD', 'created_at'),
+
+        /*
+         * Default sort direction
+         * Supported: 'asc', 'desc'
+         */
+        'sort_direction' => env('ACTIVITY_LOG_SORT_DIRECTION', 'desc'),
+    ],
 ];

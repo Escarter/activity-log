@@ -22,4 +22,5 @@ interface ActivityLoggerInterface
      * @return int Number of deleted records
      */
     public function clean(int $days = 30): int;
+
 }

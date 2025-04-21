@@ -39,13 +39,19 @@ interface ActivityRepositoryInterface
     public function byCauser(Model $causer, array $filters = [], int $perPage = 15): LengthAwarePaginator;
 
     /**
-     * Get all activities with applied filters
+     * Get activities for a specific log name
      * 
+     * @param string $logName
      * @param array $filters
      * @param int $perPage
      * @return LengthAwarePaginator
      */
-    public function getAll(array $filters = [], int $perPage = 15): LengthAwarePaginator;
+    public function getAll(
+        array $filters = [],
+        int $perPage = 15,
+        string $sortField = 'created_at',
+        string $sortDirection = 'desc'
+    ): LengthAwarePaginator;
 
     /**
      * Apply filters to query
@@ -63,4 +69,12 @@ interface ActivityRepositoryInterface
      * @return int Number of deleted records
      */
     public function deleteOlderThan(int $days): int;
+
+    /**
+     * Delete multiple logs by ids
+     * 
+     * @param array $ids
+     * @return bool
+     */
+    public function deleteMultiple(array $ids): bool;
 }

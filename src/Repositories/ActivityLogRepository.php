@@ -49,11 +49,16 @@ class ActivityLogRepository implements ActivityRepositoryInterface
         return $this->applyFilters($query, $filters)->latest()->paginate($perPage);
     }
 
-    public function getAll(array $filters = [], int $perPage = 15): LengthAwarePaginator
-    {
-        $query = ActivityLog::query();
+    public function getAll(
+        array $filters = [],
+        int $perPage = 15,
+        string $sortField = 'created_at',
+        string $sortDirection = 'desc'
+    ): LengthAwarePaginator {
 
-        return $this->applyFilters($query, $filters)->latest()->paginate($perPage);
+        $query = ActivityLog::query()->orderBy($sortField, $sortDirection);
+
+        return $this->applyFilters($query, $filters)->paginate($perPage);
     }
 
     public function applyFilters(Builder $query, array $filters = []): Builder
@@ -92,5 +97,15 @@ class ActivityLogRepository implements ActivityRepositoryInterface
         $cutoffDate = Carbon::now()->subDays($days);
 
         return ActivityLog::where('created_at', '<', $cutoffDate)->delete();
+    }
+    
+    public function deleteMultiple(array $ids): bool
+    {
+        if (empty($ids)) {
+            return false;
+        }
+
+        ActivityLog::destroy($ids);
+        return true;
     }
 }
