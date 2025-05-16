@@ -3,8 +3,6 @@
 namespace Escarter\ActivityLog\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Escarter\ActivityLog\Actions\LogModelAction;
 use Escarter\ActivityLog\ActivityLogFacade as ActivityLog;
 
 trait LogsActivity
@@ -12,31 +10,46 @@ trait LogsActivity
     public static function bootLogsActivity()
     {
         static::created(function (Model $model) {
-            if (static::shouldLogActivity($model, 'created')) {
-                ActivityLog::logModel($model, 'created', Auth::user());
-            }
+            $model->logActivityIfNeeded('created');
         });
 
         static::updated(function (Model $model) {
-            if (static::shouldLogActivity($model, 'updated')) {
-                ActivityLog::logModel($model, 'updated', Auth::user());
-            }
+            $model->logActivityIfNeeded('updated');
         });
 
         static::deleted(function (Model $model) {
-            if (static::shouldLogActivity($model, 'deleted')) {
-                ActivityLog::logModel($model, 'deleted', Auth::user());
-            }
+            $model->logActivityIfNeeded('deleted');
         });
     }
 
-    protected static function shouldLogActivity(Model $model, string $event): bool
+    protected function logActivityIfNeeded(string $event): void
     {
-        if (method_exists($model, 'shouldLogActivity')) {
-            return $model->shouldLogActivity($event);
+        if (!$this->shouldLogActivity($event)) {
+            return;
+        }
+
+        $causer = $this->determineActivityCauser();
+        ActivityLog::logModel($this, $event, $causer);
+    }
+
+    protected function shouldLogActivity(string $event): bool
+    {
+        // Allow model to override this method
+        if (method_exists($this, 'customShouldLogActivity')) {
+            return $this->customShouldLogActivity($event);
         }
 
         return true;
+    }
+
+    protected function determineActivityCauser()
+    {
+        // Allow model to specify causer
+        if (method_exists($this, 'getActivityCauser')) {
+            return $this->getActivityCauser();
+        }
+
+        return auth()->user();
     }
 
     public function activities()

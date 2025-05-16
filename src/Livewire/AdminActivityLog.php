@@ -1,6 +1,6 @@
 <?php
 
-namespace Escarter\ActivityLog\Http\Livewire;
+namespace Escarter\ActivityLog\Livewire;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Component;
@@ -9,7 +9,9 @@ use Escarter\ActivityLog\Contracts\ActivityRepositoryInterface;
 
 class AdminActivityLog extends Component
 {
-    protected $paginationTheme;
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
     protected $queryString = [
         'filters' => ['except' => []],
         'perPage' => ['except' => 15],
@@ -17,10 +19,10 @@ class AdminActivityLog extends Component
         'sortDirection' => ['except' => 'desc']
     ];
 
-    public array $filters = [];
-    public int $perPage;
-    public string $sortField;
+    public string $sortField ;
     public string $sortDirection;
+    public int $perPage;
+    public array $filters = [];
     public array $selectedLogs = [];
     public bool $selectAll = false;
 
@@ -29,20 +31,22 @@ class AdminActivityLog extends Component
         'refreshLogs' => '$refresh'
     ];
 
-    public function __construct($id = null)
+    public $selectedLog = null;
+
+    public function viewLog($logId)
     {
-        parent::__construct($id);
+        $this->selectedLog = app(ActivityRepositoryInterface::class)->findById($logId);
+    }
+
+    public function mount()
+    {
+        $this->resetFilters();
 
         // Set default values from config
         $this->paginationTheme = config('activity-log.ui.pagination_theme', 'bootstrap');
         $this->perPage = config('activity-log.ui.per_page', 15);
         $this->sortField = config('activity-log.ui.sort_field', 'created_at');
         $this->sortDirection = config('activity-log.ui.sort_direction', 'desc');
-    }
-
-    public function mount()
-    {
-        $this->resetFilters();
     }
 
     public function resetFilters()
@@ -87,7 +91,7 @@ class AdminActivityLog extends Component
         app(ActivityRepositoryInterface::class)->deleteMultiple($this->selectedLogs);
         $this->selectedLogs = [];
         $this->selectAll = false;
-        $this->emitSelf('refreshLogs');
+        $this->dispatch('refreshLogs');
         session()->flash('message', 'Selected logs deleted successfully.');
     }
 
@@ -100,13 +104,23 @@ class AdminActivityLog extends Component
             default => 'info',
         };
     }
-
     public function getCauserUrl($log): ?string
     {
         if (!$log->causer) return null;
 
         return match (class_basename($log->causer_type)) {
-            'User' => route('admin.users.show', $log->causer_id),
+            'User' => route('portal.clients.index', ['query' => $log->causer->first_name]),
+            // Add other model routes as needed
+            default => null,
+        };
+    }
+
+    public function getSubjectUrl($log): ?string
+    {
+        if (!$log->subject) return null;
+
+        return match (class_basename($log->subject_type)) {
+            'Message' => route('portal.recommendations.messages.index', ['query' => $log->subject->name]),
             // Add other model routes as needed
             default => null,
         };
@@ -157,6 +171,6 @@ class AdminActivityLog extends Component
     {
         return view('activity-log::livewire.admin-activity-log', [
             'logs' => $this->getLogs(),
-        ])->layout(config('activity-log.ui.layout', 'layouts.app'));
+        ])->layout(config('activity-log.ui.layout_admin', 'layouts.app'));
     }
 }

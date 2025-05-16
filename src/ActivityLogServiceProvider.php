@@ -7,9 +7,9 @@ use Livewire\Livewire;
 use Escarter\ActivityLog\Commands\CleanActivityLogs;
 use Escarter\ActivityLog\Contracts\ActivityLoggerInterface;
 use Escarter\ActivityLog\Contracts\ActivityRepositoryInterface;
-use Escarter\ActivityLog\Http\Livewire\ActivityLogFilters;
-use Escarter\ActivityLog\Http\Livewire\AdminActivityLog;
-use Escarter\ActivityLog\Http\Livewire\UserActivityLog;
+use Escarter\ActivityLog\Livewire\ActivityLogFilters;
+use Escarter\ActivityLog\Livewire\AdminActivityLog;
+use Escarter\ActivityLog\Livewire\UserActivityLog;
 use Escarter\ActivityLog\Repositories\ActivityLogRepository;
 use Escarter\ActivityLog\Traits\RegistersLogHandlers;
 
@@ -45,6 +45,8 @@ class ActivityLogServiceProvider extends ServiceProvider
         }
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'activity-log');
+
+
         $this->registerLivewireComponents();
         $this->registerEventListeners();
     }
@@ -62,14 +64,20 @@ class ActivityLogServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/activity-log'),
         ], 'activity-log-views');
+
+        if (config('activity-log.register_routes', true)) {
+            $this->publishes([
+                __DIR__ . '/../routes/web.php' => base_path('routes/activity-log.php'),
+            ], 'activity-log-routes');
+        }
     }
 
     protected function registerLivewireComponents()
     {
         if (class_exists(Livewire::class)) {
-            Livewire::component('activity-log-filters', ActivityLogFilters::class);
-            Livewire::component('admin-activity-log', AdminActivityLog::class);
-            Livewire::component('user-activity-log', UserActivityLog::class);
+            Livewire::component('activity-log::activity-log-filters', ActivityLogFilters::class);
+            Livewire::component('activity-log::admin-activity-log', AdminActivityLog::class);
+            Livewire::component('activity-log::user-activity-log', UserActivityLog::class);
         }
     }
 }

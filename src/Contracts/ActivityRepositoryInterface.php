@@ -77,4 +77,14 @@ interface ActivityRepositoryInterface
      * @return bool
      */
     public function deleteMultiple(array $ids): bool;
+
+
+  
+    /**
+     * Find an activity log entry by its ID.
+     *
+     * @param mixed $logId The unique identifier of the log entry to find
+     * @return \Escarter\ActivityLog\Models\Activity|null The activity log entry if found, null otherwise
+     */
+    public function findById($logId);
 }

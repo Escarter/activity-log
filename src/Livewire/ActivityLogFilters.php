@@ -1,6 +1,6 @@
 <?php
 
-namespace Escarter\ActivityLog\Http\Livewire;
+namespace Escarter\ActivityLog\Livewire;
 
 use Illuminate\Support\Collection;
 use Livewire\Component;

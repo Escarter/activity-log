@@ -108,4 +108,18 @@ class ActivityLogRepository implements ActivityRepositoryInterface
         ActivityLog::destroy($ids);
         return true;
     }
+    public function findById($logId)
+    {
+        return ActivityLog::find($logId);
+    }
+
+    public function countByCauser(Model $causer): int
+    {
+        return ActivityLog::causedBy($causer)->count();
+    }
+
+    public function countByCauserAndEvent(Model $causer, string $event): int
+    {
+        return ActivityLog::causedBy($causer)->where('event', $event)->count();
+    }
 }

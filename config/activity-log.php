@@ -46,13 +46,19 @@ return [
     'activity_model' => \Escarter\ActivityLog\Models\ActivityLog::class,
 
     /*
+     * The model used to store activity log changes.
+     */
+    'register_routes' => env('ACTIVITY_LOG_REGISTER_ROUTES', true),
+
+    /*
      * View and UI related configurations
      */
     'ui' => [
         /*
          * The admin layout to use for the activity log pages
          */
-        'layout' => env('ACTIVITY_LOG_LAYOUT', 'layouts.app'),
+        'layout_default' => env('ACTIVITY_LOG_LAYOUT_DEFAULT', 'layouts.app'),
+        'layout_admin' => env('ACTIVITY_LOG_LAYOUT_ADMIN', 'components.layouts.dashboard'),
 
         /*
          * The theme to use for pagination
