@@ -158,199 +158,194 @@
                             <td colspan="5" class="p-0">
                                 <div class="collapse {{ $openLogId === $log->id ? 'show' : '' }}" id="details{{ $log->id }}">
                                     <div class="p-4">
-                                    <div class="row g-4">
-                                        <!-- Basic Information -->
-                                        <div class="col-md-6">
-                                            <div class="border-start border-4 border-primary ps-3 mb-3">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="bi bi-info-circle text-primary me-2"></i>
-                                                    <h6 class="mb-0 fw-bold">Basic Information</h6>
+                                        <div class="row g-4">
+                                            <!-- Basic Information -->
+                                            <div class="col-md-6">
+                                                <div class="border-start border-4 border-primary ps-3 mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-info-circle text-primary me-2"></i>
+                                                        <h6 class="mb-0 fw-bold">Basic Information</h6>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="bg-light rounded-3 p-3">
-                                                <div class="row g-3">
-                                                    <div class="col-12">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <span class="text-muted">ID</span>
-                                                            <span class="fw-medium">{{ $log->id }}</span>
+                                                <div class="bg-light rounded-3 p-3">
+                                                    <div class="row g-3">
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <span class="text-muted">ID</span>
+                                                                <span class="fw-medium">{{ $log->id }}</span>
+                                                            </div>
+                                                            <hr class="my-2">
                                                         </div>
-                                                        <hr class="my-2">
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <span class="text-muted">Log Name</span>
-                                                            <span class="fw-medium">{{ $log->log_name }}</span>
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <span class="text-muted">Log Name</span>
+                                                                <span class="fw-medium">{{ $log->log_name }}</span>
+                                                            </div>
+                                                            <hr class="my-2">
                                                         </div>
-                                                        <hr class="my-2">
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <span class="text-muted">Event</span>
-                                                            <span class="badge 
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <span class="text-muted">Event</span>
+                                                                <span class="badge 
                                             @if($log->event == 'created') bg-success
                                             @elseif($log->event == 'updated') bg-primary
                                             @elseif($log->event == 'deleted') bg-danger
                                             @elseif($log->event == 'login') bg-info
                                             @else bg-secondary
                                             @endif rounded-pill px-3">{{ $log->event }}</span>
+                                                            </div>
+                                                            <hr class="my-2">
                                                         </div>
-                                                        <hr class="my-2">
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <span class="text-muted">Description</span>
-                                                            <span class="fw-medium">{{ $log->description }}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Additional Information -->
-                                        <div class="col-md-6">
-                                            <div class="border-start border-4 border-primary ps-3 mb-3">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="bi bi-card-list text-primary me-2"></i>
-                                                    <h6 class="mb-0 fw-bold">Additional Information</h6>
-                                                </div>
-                                            </div>
-                                            <div class="bg-light rounded-3 p-3">
-                                                <div class="row g-3">
-                                                    <div class="col-12">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <span class="text-muted">Subject</span>
-                                                            <div>
-                                                                @if($log->subject)
-                                                                <span class="">
-                                                                    {{ class_basename(get_class($log->subject)) }} #{{ $log->subject_id }}
-                                                                </span>
-                                                                @else
-                                                                <span class="">-</span>
-                                                                @endif
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <span class="text-muted">Description</span>
+                                                                <span class="fw-medium">{{ $log->description }}</span>
                                                             </div>
                                                         </div>
-                                                        <hr class="my-2">
                                                     </div>
-                                                    <div class="col-12">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <span class="text-muted">Causer</span>
-                                                            <div>
-                                                                @if(isset($log->causer))
-                                                                <span class="">
-                                                                    {{ class_basename(get_class($log->causer)) }} #{{ $log->causer_id }}
-                                                                </span>
-                                                                @else
-                                                                <span class="badge bg-secondary">System</span>
-                                                                @endif
+                                                </div>
+                                            </div>
+
+                                            <!-- Additional Information -->
+                                            <div class="col-md-6">
+                                                <div class="border-start border-4 border-primary ps-3 mb-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-card-list text-primary me-2"></i>
+                                                        <h6 class="mb-0 fw-bold">Additional Information</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-light rounded-3 p-3">
+                                                    <div class="row g-3">
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <span class="text-muted">Subject</span>
+                                                                <div>
+                                                                    @if($log->subject)
+                                                                    <span class="">
+                                                                        {{ class_basename(get_class($log->subject)) }} #{{ $log->subject_id }}
+                                                                    </span>
+                                                                    @else
+                                                                    <span class="">-</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                            <hr class="my-2">
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <span class="text-muted">Causer</span>
+                                                                <div>
+                                                                    @if(isset($log->causer))
+                                                                    <span class="">
+                                                                        {{ class_basename(get_class($log->causer)) }} #{{ $log->causer_id }}
+                                                                    </span>
+                                                                    @else
+                                                                    <span class="badge bg-secondary">System</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                            <hr class="my-2">
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <span class="text-muted">IP Address</span>
+                                                                <span class="fw-medium">{{ $log->properties['ip'] ?? '-' }}</span>
+                                                            </div>
+                                                            <hr class="my-2">
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                                                <span class="text-muted">User Agent</span>
+                                                                <small class="text-truncate d-inline-block" style="max-width: 200px;">{{ $log->properties['user_agent'] ?? '-' }}</small>
                                                             </div>
                                                         </div>
-                                                        <hr class="my-2">
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <span class="text-muted">IP Address</span>
-                                                            <span class="fw-medium">{{ $log->properties['ip'] ?? '-' }}</span>
-                                                        </div>
-                                                        <hr class="my-2">
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                                            <span class="text-muted">User Agent</span>
-                                                            <small class="text-truncate d-inline-block" style="max-width: 200px;">{{ $log->properties['user_agent'] ?? '-' }}</small>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Changes Section -->
-                                    @if(isset($log->properties['attributes']) || isset($log->properties['old']))
-                                    <div class="mt-4">
-                                        <div class="card border-0 shadow-sm rounded-3">
-                                            <div class="card-header bg-white border-bottom border-2 border-primary">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="bi bi-pencil-square text-primary me-2"></i>
-                                                    <h6 class="mb-0 fw-bold">Changes</h6>
+                                        <!-- Changes Section -->
+                                        @if(isset($log->properties['attributes']) || isset($log->properties['old']))
+                                        <div class="mt-4">
+                                            <div class="card border-0 shadow-sm rounded-3">
+                                                <div class="card-header bg-white border-bottom border-2 border-primary">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-pencil-square text-primary me-2"></i>
+                                                        <h6 class="mb-0 fw-bold">Changes</h6>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-body p-0">
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover mb-0">
-                                                        <thead class="table-light">
-                                                            <tr>
-                                                                <th class="border-0">Field</th>
-                                                                <th class="border-0">Old Value</th>
-                                                                <th class="border-0">New Value</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach($log->properties['attributes'] ?? [] as $field => $value)
-                                                            @if(!in_array($field, ['created_at', 'updated_at', 'deleted_at']))
-                                                            <tr>
-                                                                <td class="fw-medium">{{ $field }}</td>
-                                                                <td>
-                                                                    <span class="text-danger">
-                                                                        {{ isset($log->properties['old'][$field]) ? $log->properties['old'][$field] : '-' }}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <span class="text-success">
-                                                                        {{ $value }}
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            @endif
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
+                                                <div class="card-body p-0">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover mb-0">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th class="border-0">Field</th>
+                                                                    <th class="border-0">Old Value</th>
+                                                                    <th class="border-0">New Value</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach($log->properties['attributes'] ?? [] as $field => $value)
+                                                                @if(!in_array($field, ['created_at', 'updated_at', 'deleted_at']))
+                                                                <tr>
+                                                                    <td class="fw-medium">{{ $field }}</td>
+                                                                    <td>
+                                                                        <span class="text-danger">
+                                                                            {{ isset($log->properties['old'][$field]) ? $log->properties['old'][$field] : '-' }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="text-success">
+                                                                            {{ $value }}
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                                @endif
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    @endif
+                                        @endif
 
-                                    <!-- Extra Data Section -->
-                                    @if(isset($log->properties['extra']))
-                                    <div class="mt-4">
-                                        <div class="card border-0 shadow-sm rounded-3">
-                                            <div class="card-header bg-white border-bottom border-2 border-primary">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="bi bi-braces text-primary me-2"></i>
-                                                    <h6 class="mb-0 fw-bold">Extra Data</h6>
+                                        <!-- Extra Data Section -->
+                                        @if(isset($log->properties['extra']))
+                                        <div class="mt-4">
+                                            <div class="card border-0 shadow-sm rounded-3">
+                                                <div class="card-header bg-white border-bottom border-2 border-primary">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-braces text-primary me-2"></i>
+                                                        <h6 class="mb-0 fw-bold">Extra Data</h6>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-body p-0">
-                                                <div class="bg-light rounded p-3 m-3">
-                                                    <pre class="mb-0 text-secondary"><code>{{ json_encode($log->properties['extra'], JSON_PRETTY_PRINT) }}</code></pre>
+                                                <div class="card-body p-0">
+                                                    <div class="bg-light rounded p-3 m-3">
+                                                        <pre class="mb-0 text-secondary"><code>{{ json_encode($log->properties['extra'], JSON_PRETTY_PRINT) }}</code></pre>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
-                                    @endif
                                 </div>
-            </div>
-            </td>
-            </tr>
-            @endforeach
-            </tbody>
-            </table>
-            <div class='d-flex justify-content-between align-items-center pt-3 px-3'>
-                <div>
-                    {{__('Showing')}} {{$perPage > $logs->total() ? $logs->total() : $perPage}} {{__('items of')}} {{$logs->total()}}
-                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
                 {{ $logs->links() }}
             </div>
         </div>
-    </div>
-    @else
-    <div class='border-prim rounded p-4 d-flex justify-content-center align-items-center flex-column'>
-        <img src="{{asset('/img/empty.svg')}}" alt='{{__("Empty")}}' class="text-center w-25 h-25">
-        <div class="text-center text-gray-800 mt-2">
-            <h4 class="fs-4 fw-bold">{{__('No activity logs found')}} &#128540;</h4>
-            <p>{{__('No activity logs found!')}}</p>
+        @else
+        <div class='border-prim rounded p-4 d-flex justify-content-center align-items-center flex-column'>
+            <img src="{{asset('/img/empty.svg')}}" alt='{{__("Empty")}}' class="text-center w-25 h-25">
+            <div class="text-center text-gray-800 mt-2">
+                <h4 class="fs-4 fw-bold">{{__('No activity logs found')}} &#128540;</h4>
+                <p>{{__('No activity logs found!')}}</p>
+            </div>
         </div>
+        @endif
     </div>
-    @endif
-</div>
 </div>
